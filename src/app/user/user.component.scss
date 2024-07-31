@@ -1,11 +1,50 @@
-.add-user-button{
+mat-card {
+  padding-left: 0;
+  padding-right: 0;
+  box-shadow: 1px 3px 11px 1px rgba(0, 0, 0, 0.12) !important;
+  -webkit-box-shadow: 1px 3px 11px 1px rgba(0, 0, 0, 0.51) ;
+  -moz-box-shadow: 1px 3px 11px 1px rgba(0, 0, 0, 0.51);
+}
+
+.add-user-button {
   position: absolute;
   bottom: 56px;
   right: 56px;
 }
 
-.user-table{
-  th{
+.user-table {
+  border-collapse: collapse;
+
+  tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+
+    &:first-child {
+      cursor: unset;
+
+      &:hover {
+        background-color: unset;
+      }
+    }
+
+    td {
+      height: 48px;
+    }
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+
+  }
+
+
+
+  th {
     color: rgba(0, 0, 0, 0.5);
     font-size: 14px;
     font-weight: 500;
