@@ -6,15 +6,19 @@
       <th>E-mail</th>
       <th>city</th>
      </tr>
-     <tr>
+     @for (user of allUsers; track $index) {
+      <tr>
+        <td>{{ user.firstName }}</td>
+        <td>{{ user.lastName }}</td>
+        <td>{{ user.city }}</td>
+       </tr>
+     }
+
+     <!-- <tr>
       <td>asdasd</td>
       <td>asdasd</td>
       <td>asdasd</td>
-     </tr> <tr>
-      <td>asdasd</td>
-      <td>asdasd</td>
-      <td>asdasd</td>
-     </tr>
+     </tr> -->
     </table>
   </mat-card-content>
 </mat-card>

@@ -15,7 +15,10 @@
 
 .logo-container{
   border-bottom: 1px solid rgba($color: #000000, $alpha: 0.04);
-  padding: 0 16px;
+  img{
+    width: 100%;
+    height: 56px;
+  }
   min-height: 56px;
   display: flex;
   align-items: center;
