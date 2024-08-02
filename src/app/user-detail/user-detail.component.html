@@ -2,8 +2,8 @@
   <mat-card-content>
     <img src="assets/img/empty_profile.png" alt="empty_profile" srcset="">
     <div class="user-details">
-      <h1>Max Musterman</h1>
-      emailemail.com
+      <h1>{{ user.firstName }} {{ user.lastName }}</h1>
+      {{ user.email }}
     </div>
   </mat-card-content>
 </mat-card>
@@ -12,7 +12,8 @@
     <mat-card-title>Address</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    Muster strase 23<br>
+    {{ user.street}}<br>
+    {{ user.zipCode}} {{ user.city}}
 
   </mat-card-content>
 </mat-card>

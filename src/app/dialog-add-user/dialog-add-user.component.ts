@@ -11,6 +11,7 @@ import { collection, Firestore } from '@angular/fire/firestore';
 import { doc, setDoc } from "firebase/firestore";
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 
+
 @Component({
   selector: 'app-dialog-add-user',
   standalone: true,
