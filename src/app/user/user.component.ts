@@ -10,11 +10,12 @@ import { MatCardModule } from '@angular/material/card';
 import { collection, DocumentData, Firestore, QuerySnapshot } from '@angular/fire/firestore';
 import { doc, onSnapshot } from "firebase/firestore";
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [MatIcon, MatButtonModule, MatTooltipModule, MatDialogModule, MatCardModule, CommonModule],
+  imports: [MatIcon, MatButtonModule, MatTooltipModule, MatDialogModule, MatCardModule, CommonModule, RouterModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss',
 })
@@ -26,23 +27,29 @@ export class UserComponent {
   firestore: Firestore = inject(Firestore);
   user = new User();
   allUsers: User[] = [];
-
+  unsub: any;
   constructor() {}
 
   ngOnInit(): void {
-    const usersCollection = collection(this.firestore, 'users');
-    const unsub = onSnapshot(usersCollection, (snapshot: QuerySnapshot<DocumentData>) => {
-      this.allUsers = []; // Leere das Array vor dem Pushen neuer Daten
+     this.unsub = onSnapshot(this.getUsersRef(), (snapshot: QuerySnapshot<DocumentData>) => {
+      this.allUsers = [];
       snapshot.forEach((doc) => {
         const data = doc.data();
-        const user = new User(data); // Erzeuge ein neues User-Objekt
+        const user = new User(data);
+        user.id = doc.id;
         this.allUsers.push(user);
         console.log('Received changes from DB', user);
       });
     });
   }
 
+  getUsersRef(){
+    return collection(this.firestore, 'users')
+  }
 
+ ngOnDestroy(): void {
+   this.unsub()
+ }
 
   openDialog(): void {
     this.dialog.open(DialogAddUserComponent);
