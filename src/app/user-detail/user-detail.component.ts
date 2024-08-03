@@ -8,11 +8,13 @@ import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute } from '@angular/router';
 import { doc, getDoc } from 'firebase/firestore';
 import { User } from '../../models/user.class';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-user-detail',
   standalone: true,
-  imports: [MatCardModule],
+  imports: [MatCardModule, MatButtonModule, MatIconModule],
   templateUrl: './user-detail.component.html',
   styleUrl: './user-detail.component.scss',
 })
@@ -36,7 +38,7 @@ export class UserDetailComponent {
       this.docRef = doc(this.firestore, 'users', this.userId);
       const docSnap = await getDoc(this.docRef);
       if (docSnap.exists()) {
-        this.user = docSnap.data() as User; 
+        this.user = docSnap.data() as User;
         console.log('User data:', this.user);
       } else {
         console.log('No such document!');
@@ -44,5 +46,9 @@ export class UserDetailComponent {
     } else {
       console.log('Invalid user ID');
     }
+  }
+
+  openAddressDialog(){
+    
   }
 }
