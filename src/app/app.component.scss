@@ -1,3 +1,5 @@
+$primary-bg-color: #fef1ff;
+$secondary-bg-color: #fae3ff;
 
 .menu-icon{
   cursor: pointer;
@@ -10,7 +12,7 @@
 
 .sidenav{
   width: 300px;
-
+  background-color: $primary-bg-color;
 }
 
 .logo-container{
@@ -27,6 +29,7 @@
 .mat-toolbar, .mat-toolbar-row{
   min-height: 56px;
   height: 56px;
+  background-color: $secondary-bg-color;
 }
 
 .menu-items{

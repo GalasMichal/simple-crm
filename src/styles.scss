@@ -8,6 +8,7 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #f498ff !important;
 }
 
 .mr-16 {
@@ -20,4 +21,8 @@ body {
 
 .mt-32{
   margin-top: 32px;
+}
+
+mat-form-field{
+  margin-top: 5px;
 }

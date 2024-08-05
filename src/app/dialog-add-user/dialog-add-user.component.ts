@@ -5,12 +5,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_NATIVE_DATE_FORMATS, MatNativeDateModule, NativeDateAdapter } from '@angular/material/core';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_NATIVE_DATE_FORMATS,
+  MatNativeDateModule,
+  NativeDateAdapter,
+} from '@angular/material/core';
 import { User } from '../../models/user.class';
 import { collection, Firestore } from '@angular/fire/firestore';
-import { doc, setDoc } from "firebase/firestore";
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-
+import { doc, setDoc } from 'firebase/firestore';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-dialog-add-user',
@@ -24,7 +29,6 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatDatepickerModule,
     MatNativeDateModule,
     MatProgressBarModule,
-
   ],
   providers: [
     { provide: DateAdapter, useClass: NativeDateAdapter },
@@ -40,23 +44,22 @@ export class DialogAddUserComponent {
   birthDate!: Date;
   loading = false;
 
- async saveUser(){
+  async saveUser() {
     this.user.birthDate = this.birthDate.getTime();
     console.log('Current user is', this.user);
-   this.loading = true;
-   const newUserRef = doc(collection(this.firestore, "users"))
-   try {
-    await setDoc(newUserRef, this.user.toJSON());
-    console.log('Adding user complete');
-    this.loading = false;
-    this.dialogRef.close();
-  } catch (error) {
-    console.error('Error adding user: ', error);
-    this.loading = false;
+    this.loading = true;
+    const newUserRef = doc(collection(this.firestore, 'users'));
+    try {
+      await setDoc(newUserRef, this.user.toJSON());
+      this.loading = false;
+      this.dialogRef.close();
+    } catch (error) {
+      console.error('Error adding user: ', error);
+      this.loading = false;
+    }
   }
-}
 
-closeDialog() {
-  this.dialogRef.close();
-}
+  closeDialog() {
+    this.dialogRef.close();
+  }
 }

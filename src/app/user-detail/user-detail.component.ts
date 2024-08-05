@@ -3,10 +3,11 @@ import {
   DocumentData,
   DocumentReference,
   Firestore,
+  onSnapshot,
 } from '@angular/fire/firestore';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute } from '@angular/router';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, Unsubscribe } from 'firebase/firestore';
 import { User } from '../../models/user.class';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,11 +24,12 @@ import { DialogEditUserComponent } from '../dialog-edit-user/dialog-edit-user.co
   styleUrl: './user-detail.component.scss',
 })
 export class UserDetailComponent {
-  userId: string | null = null;
+  userId: string | undefined | null;
   docRef: DocumentReference<DocumentData> | null = null;
   dialog = inject(MatDialog);
   firestore: Firestore = inject(Firestore);
   user: User = new User();
+  unsub!: Unsubscribe;
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
@@ -38,27 +40,30 @@ export class UserDetailComponent {
     });
   }
 
-  async getUser() {
-    if (this.userId) {
-      this.docRef = doc(this.firestore, 'users', this.userId);
-      const docSnap = await getDoc(this.docRef);
-      if (docSnap.exists()) {
-        this.user = docSnap.data() as User;
-        console.log('User data:', this.user);
-      } else {
-        console.log('No such document!');
-      }
-    } else {
-      console.log('Invalid user ID');
-    }
+  ngOnDestroy(): void {
+      this.unsub();
+
   }
 
+  getUser() {
+    if (this.userId) {
+      this.docRef = doc(this.firestore, 'users', this.userId);
+      this.unsub = onSnapshot(this.docRef, (docSnap) => {
+        if (docSnap.exists()) {
+          this.user = docSnap.data() as User;
+        }
+      });
+  }}
+
   editUser() {
-   const dialog =  this.dialog.open(DialogEditAddressComponent);
-   dialog.componentInstance.user = this.user;
+    const dialog = this.dialog.open(DialogEditUserComponent);
+    dialog.componentInstance.user = new User(this.user);
+    if (this.userId) dialog.componentInstance.userId = this.userId;
   }
+
   editMenu() {
-    const dialog =  this.dialog.open(DialogEditAddressComponent);
-   dialog.componentInstance.user = this.user;
+    const dialog = this.dialog.open(DialogEditAddressComponent);
+    dialog.componentInstance.user = new User(this.user); // diese syntax erstellt eine Kopie von den nutzer
+    if (this.userId) dialog.componentInstance.userId = this.userId;
   }
 }
